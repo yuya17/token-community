@@ -16,3 +16,6 @@ $ npm install @openzeppelin/contracts@4.7.0
 
 #Hardhatでプロジェクト作成
 $ npx hardhat
+
+#HardHatでコンパイル
+$ npx hardhat compile
