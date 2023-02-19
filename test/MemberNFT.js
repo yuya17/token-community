@@ -11,7 +11,7 @@ describe("MemberNFTコントラクト", () => {
   let owner;
   let addr1;
 
-  beforeEach(async () =>{
+  beforeEach(async () => {
     [owner, addr1] = await ethers.getSigners();
     MemberNFT = await ethers.getContractFactory("MemberNFT");
     memberNFT = await MemberNFT.deploy();
@@ -21,7 +21,6 @@ describe("MemberNFTコントラクト", () => {
   it("トークンの名前とシンボルがセットされるべき", async () => {
     expect(await memberNFT.name()).to.equal(name);
     expect(await memberNFT.symbol()).to.equal(symbol);
-
   });
   it("デプロイアドレスがownerに設定されるべき", async () => {
     expect(await memberNFT.owner()).to.equal(owner.address);
@@ -39,8 +38,13 @@ describe("MemberNFTコントラクト", () => {
     expect(await memberNFT.tokenURI(2)).to.equal(tokenURI2);
   });
   it("owner以外はNFT作成に失敗すべき", async () => {
+    await expect(
+      memberNFT.connect(addr1).nftMint(addr1.address, tokenURI1)
+    ).to.be.revertedWith("Ownable: caller is not the owner");
+  });
+  it("NFT作成後に'TokenURIChanged'イベントが発行されるべき", async () => {
     // expect().to.equal(0);
-    await expect(memberNFT.connect(addr1).nftMint(addr1.address, tokenURI1))
-    .to.be.revertedWith("Ownable: caller is not the owner");
+    await expect(memberNFT.nftMint(addr1.address, tokenURI1))
+    .to.emit(memberNFT, "TokenURIChanged").withArgs(addr1.address, 1, tokenURI1);
   });
 });
