@@ -4,17 +4,16 @@ const main = async () => {
   await memberNFT.deployed();
 
   console.log(`Contract deployed to: ${memberNFT.address}`);
-}
+};
 
 const deploy = async () => {
-  try{
+  try {
     await main();
     process.exit(0);
-  }catch (err){
+  } catch (err) {
     console.log(err);
     process.exit(1);
   }
-
 };
 
 deploy();
