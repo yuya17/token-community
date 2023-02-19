@@ -19,3 +19,6 @@ $ npx hardhat
 
 #HardHatでコンパイル
 $ npx hardhat compile
+
+#HardHatでテスト
+$ npx hardhat test
